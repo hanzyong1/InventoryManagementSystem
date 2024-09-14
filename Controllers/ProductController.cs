@@ -15,5 +15,14 @@ namespace InventoryManagementSystem.Controllers
         {
             _context = context;
         }
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAllProducts()
+        {
+            var products = await _context.Products.ToListAsync();
+
+            return Ok(products);
+        }
     }
 }
