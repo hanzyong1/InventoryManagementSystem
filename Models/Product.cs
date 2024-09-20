@@ -11,5 +11,7 @@ namespace InventoryManagementSystem.Models
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
         public int CategoryId { get; set; }
+        public int Quantity { get; set; }
+        public double Price { get; set; }
     }
 }
