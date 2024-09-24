@@ -1,4 +1,5 @@
 ﻿using InventoryManagementSystem.Data;
+using InventoryManagementSystem.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,11 +9,11 @@ namespace InventoryManagementSystem.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IProductService _productService;
 
-        public ProductController(ApplicationDbContext context)
+        public ProductController(IProductService productService)
         {
-            _context = context;
+            _productService = productService;
         }
 
         //[HttpGet("id")]
@@ -32,9 +33,9 @@ namespace InventoryManagementSystem.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAllProducts()
+        public async Task<IActionResult> GetAll()
         {
-            var products = await _context.Products.ToListAsync();
+            var products = await _productService.GetAll();
 
             return Ok(products);
         }
