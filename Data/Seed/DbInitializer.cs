@@ -8,6 +8,7 @@ namespace InventoryManagementSystem.Data.Seed
             context.Database.EnsureCreated();
 
             await new CategorySeeder(context).Create();
+            await new ProductSeeder(context).Create();
         }
     }
 }
