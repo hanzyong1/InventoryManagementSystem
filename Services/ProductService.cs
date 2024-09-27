@@ -17,6 +17,33 @@ namespace InventoryManagementSystem.Services
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
         }
+
+        public async Task<GetProductDto?> Get(int id)
+        {
+            var product = await _productRepository.Get(id);
+
+            if (product == null)
+            {
+                return null;
+            }
+
+            var category = await _categoryRepository.Get(product.CategoryId);
+
+            return new GetProductDto()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Category = new GetCategoryDto
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                },
+                Quantity = product.Quantity,
+                Price = product.Price,
+            };
+        }
+
         public async Task<List<GetProductDto>> GetAll()
         {
             var products = await _productRepository.GetAll();
