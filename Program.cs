@@ -1,5 +1,6 @@
 using InventoryManagementSystem.Data;
 using InventoryManagementSystem.Data.Repositories;
+using InventoryManagementSystem.Data.Seed;
 using InventoryManagementSystem.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,14 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 var app = builder.Build();
+
+// Seed Data (commented to reduce loading speed)
+//using (var scope = app.Services.CreateScope())
+//{
+//    var services = scope.ServiceProvider;
+//    var dbContext = services.GetRequiredService<ApplicationDbContext>();
+//    await DbInitializer.InitializeAsync(dbContext);
+//}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
