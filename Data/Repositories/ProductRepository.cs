@@ -11,6 +11,12 @@ namespace InventoryManagementSystem.Data.Repositories
         {
             _context = context;
         }
+
+        public async Task<Product?> Get(int id)
+        {
+            return await _context.Products.Include(e => e.Category).FirstOrDefaultAsync(e => e.Id == id);
+        }
+
         public async Task<List<Product>> GetAll()
         {
             return await _context.Products.ToListAsync();
