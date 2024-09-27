@@ -16,22 +16,22 @@ namespace InventoryManagementSystem.Controllers
             _productService = productService;
         }
 
-        //[HttpGet("id")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //public async Task<IActionResult> GetProduct(int id)
-        //{
-        //    var product = await _context.Products.Include(e => e.Category).ThenInclude(c => c.Products).FirstOrDefaultAsync(e => e.Id == id);
+        [HttpGet("Get/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetProduct(int id)
+        {
+            var product = await _productService.Get(id);
 
-        //    if (product == null)
-        //    {
-        //        return NotFound();
-        //    }
+            if (product == null)
+            {
+                return NotFound();
+            }
 
-        //    return Ok(product);
-        //}
+            return Ok(product);
+        }
 
-        [HttpGet]
+        [HttpGet("GetAll")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
