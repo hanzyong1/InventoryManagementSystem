@@ -8,13 +8,13 @@ namespace InventoryManagementSystem.Models
         {
             
         }
-        public Product(string name, int categoryId, int quantity, double price, string? description = null)
+        public Product(string name, int categoryId, string? description = null, int quantity = 0, double price = 0.0)
         {
             Name = name;
             CategoryId = categoryId;
+            Description = description;
             Quantity = quantity;
             Price = price;
-            Description = description;
         }
 
         public int Id { get; set; }
