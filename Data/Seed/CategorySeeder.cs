@@ -20,7 +20,6 @@ namespace InventoryManagementSystem.Data.Seed
                 new Category() { Name = "Food" },
                 new Category() { Name = "DIY and hardware items" },
                 new Category() { Name = "Furniture" },
-                new Category() { Name = "Media" },
                 new Category() { Name = "Beauty and personal care" },
             };
         }
