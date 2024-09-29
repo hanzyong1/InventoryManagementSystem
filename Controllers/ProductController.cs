@@ -19,7 +19,7 @@ namespace InventoryManagementSystem.Controllers
         [HttpGet("Get/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetProduct(int id)
+        public async Task<IActionResult> Get(int id)
         {
             var product = await _productService.Get(id);
 
