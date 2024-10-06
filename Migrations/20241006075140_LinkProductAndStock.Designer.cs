@@ -3,6 +3,7 @@ using InventoryManagementSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventoryManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241006075140_LinkProductAndStock")]
+    partial class LinkProductAndStock
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,7 +38,7 @@ namespace InventoryManagementSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("InventoryManagementSystem.Models.Product", b =>
@@ -66,7 +69,7 @@ namespace InventoryManagementSystem.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("InventoryManagementSystem.Models.Stock", b =>
@@ -92,7 +95,7 @@ namespace InventoryManagementSystem.Migrations
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("Stocks", (string)null);
+                    b.ToTable("Stocks");
                 });
 
             modelBuilder.Entity("InventoryManagementSystem.Models.Warehouse", b =>
@@ -113,7 +116,7 @@ namespace InventoryManagementSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Warehouses", (string)null);
+                    b.ToTable("Warehouses");
                 });
 
             modelBuilder.Entity("InventoryManagementSystem.Models.Product", b =>

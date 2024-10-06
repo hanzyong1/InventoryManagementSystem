@@ -11,5 +11,7 @@ namespace InventoryManagementSystem.Data
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Warehouse> Warehouses { get; set; }
+        public DbSet<Stock> Stocks { get; set; }
     }
 }

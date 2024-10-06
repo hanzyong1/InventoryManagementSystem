@@ -26,5 +26,6 @@ namespace InventoryManagementSystem.Models
         public int CategoryId { get; set; }
         public int Quantity { get; set; }
         public double Price { get; set; }
+        public ICollection<Stock> Stocks { get; set; } = new List<Stock>();
     }
 }
