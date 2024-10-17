@@ -1,19 +1,24 @@
 ﻿using InventoryManagementSystem.Data.Repositories;
+using InventoryManagementSystem.Data.UnitOfWork;
 using InventoryManagementSystem.Dtos.CategoryDto;
 using InventoryManagementSystem.Dtos.ProductDto;
+using InventoryManagementSystem.Models;
 
 namespace InventoryManagementSystem.Services
 {
     public class ProductService : IProductService
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
 
         public ProductService(
+            IUnitOfWork unitOfWork,
             IProductRepository productRepository,
             ICategoryRepository categoryRepository
             )
         {
+            _unitOfWork = unitOfWork;
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
         }
@@ -69,6 +74,23 @@ namespace InventoryManagementSystem.Services
             }).ToList();
 
             return productDtos;
+        }
+
+        public async Task<GetProductDto> Create(CreateProductDto productDto)
+        {
+            var product = new Product()
+            {
+                Name = productDto.Name,
+                Description = !string.IsNullOrEmpty(productDto.Description) ? productDto.Description : null,
+                CategoryId = productDto.CategoryId,
+                Quantity = productDto.Quantity ?? 0,
+                Price = productDto.Price ?? 0.0,
+            };
+
+            var result = await _productRepository.Create(product);
+            await _unitOfWork.CommitAsync();
+
+            return await Get(result.Id);
         }
     }
 }

@@ -7,5 +7,6 @@ namespace InventoryManagementSystem.Services
     {
         Task<GetProductDto?> Get(int id);
         Task<List<GetProductDto>> GetAll();
+        Task<GetProductDto> Create(CreateProductDto createProductDto);
     }
 }
