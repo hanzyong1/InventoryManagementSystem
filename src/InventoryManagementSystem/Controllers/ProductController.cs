@@ -1,4 +1,5 @@
 ﻿using InventoryManagementSystem.Data;
+using InventoryManagementSystem.Dtos.ProductDto;
 using InventoryManagementSystem.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,21 @@ namespace InventoryManagementSystem.Controllers
             var products = await _productService.GetAll();
 
             return Ok(products);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Create([FromBody] CreateProductDto createProductDto)
+        {
+            if (createProductDto == null)
+            {
+                return BadRequest();
+            }
+
+            var product = await _productService.Create(createProductDto);
+
+            return Ok(product);
         }
     }
 }
