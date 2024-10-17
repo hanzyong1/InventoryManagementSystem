@@ -1,4 +1,5 @@
 ﻿using InventoryManagementSystem.Data.Repositories;
+using InventoryManagementSystem.Data.UnitOfWork;
 using InventoryManagementSystem.Dtos.ProductDto;
 using InventoryManagementSystem.Models;
 using InventoryManagementSystem.Services;
@@ -8,15 +9,18 @@ namespace InventoryManagementSystem.Tests
 {
     public class ProductService_Tests
     {
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Mock<IProductRepository> _productRepositoryMock;
         private readonly Mock<ICategoryRepository> _categoryRepositoryMock;
         private readonly ProductService _productService;
 
         public ProductService_Tests()
         {
+            _unitOfWorkMock = new Mock<IUnitOfWork>();
             _productRepositoryMock = new Mock<IProductRepository>();
             _categoryRepositoryMock = new Mock<ICategoryRepository>();
             _productService = new ProductService(
+                _unitOfWorkMock.Object,
                 _productRepositoryMock.Object,
                 _categoryRepositoryMock.Object
             );
@@ -61,8 +65,8 @@ namespace InventoryManagementSystem.Tests
         {
             var mockProducts = new List<Product>()
             {
-                new Product { Id = 1, Name = "Product1", Description = "Description1", CategoryId = 1, Quantity = 10, Price = 100 },
-                new Product { Id = 2, Name = "Product2", Description = "Description2", CategoryId = 2, Quantity = 5, Price = 200 },
+                new Product { Id = 1, CategoryId = 1, },
+                new Product { Id = 2, CategoryId = 2, },
             };
 
             var mockCategories = new List<Category>()
@@ -84,6 +88,33 @@ namespace InventoryManagementSystem.Tests
 
             var secondProduct = result.Last();
             Assert.Equal(2, secondProduct.Id);
-        } 
+        }
+
+        [Fact]
+        public async Task Create_Product_Returns_Product()
+        {
+            var mockProduct = new Product()
+            {
+                Id = 1,
+                Name = "Test",
+                CategoryId = 1,
+            };
+
+            var mockCreateProductDto = new CreateProductDto()
+            {
+                Name = "Test",
+                CategoryId = 1,
+            };
+
+            _productRepositoryMock.Setup(e => e.Create(mockProduct).Result).Returns(mockProduct);
+            _unitOfWorkMock.Setup(e => e.CommitAsync()).Returns(Task.CompletedTask);
+
+            var result = await _productService.Create(mockCreateProductDto);
+
+            Assert.NotNull(result);
+            Assert.Equal(mockProduct.Id, result.Id);
+            _productRepositoryMock.Verify(repo => repo.Create(It.IsAny<Product>()), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.CommitAsync(), Times.Once);
+        }
     }
 } 
