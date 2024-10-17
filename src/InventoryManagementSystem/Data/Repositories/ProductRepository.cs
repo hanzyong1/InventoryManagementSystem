@@ -21,5 +21,11 @@ namespace InventoryManagementSystem.Data.Repositories
         {
             return await _context.Products.ToListAsync();
         }
+
+        public async Task<Product> Create(Product product)
+        {
+            await _context.Products.AddAsync(product);
+            return product;
+        }
     }
 }

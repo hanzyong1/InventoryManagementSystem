@@ -6,5 +6,6 @@ namespace InventoryManagementSystem.Data.Repositories
     {
         Task<Product?> Get(int id);
         Task<List<Product>> GetAll();
+        Task<Product> Create(Product product);
     }
 }
