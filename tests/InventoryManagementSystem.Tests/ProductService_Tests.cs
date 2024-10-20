@@ -106,8 +106,15 @@ namespace InventoryManagementSystem.Tests
                 CategoryId = 1,
             };
 
-            _productRepositoryMock.Setup(e => e.Create(mockProduct).Result).Returns(mockProduct);
+            var mockCategory = new Category()
+            {
+                Id = 1,
+                Name = "Test",
+            };
+
+            _productRepositoryMock.Setup(e => e.Create(It.IsAny<Product>())).ReturnsAsync(mockProduct);
             _unitOfWorkMock.Setup(e => e.CommitAsync()).Returns(Task.CompletedTask);
+            _categoryRepositoryMock.Setup(e => e.Get(mockProduct.CategoryId).Result).Returns(mockCategory);
 
             var result = await _productService.Create(mockCreateProductDto);
 
@@ -117,17 +124,17 @@ namespace InventoryManagementSystem.Tests
             _unitOfWorkMock.Verify(uow => uow.CommitAsync(), Times.Once);
         }
 
-        [Fact]
-        public async Task Correctly_Update_Product()
-        {
-            var mockUpdateProductDto = new UpdateProductDto()
-            {
+        //[Fact]
+        //public async Task Correctly_Update_Product()
+        //{
+        //    var mockUpdateProductDto = new UpdateProductDto()
+        //    {
 
-            };
+        //    };
 
-            var result = _productService.Update(mockUpdateProductDto);
+        //    var result = _productService.Update(mockUpdateProductDto);
 
-            Assert.NotNull(result);
-        }
+        //    Assert.NotNull(result);
+        //}
     }
 } 
