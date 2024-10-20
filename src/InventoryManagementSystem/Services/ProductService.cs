@@ -32,21 +32,7 @@ namespace InventoryManagementSystem.Services
                 return null;
             }
 
-            var category = await _categoryRepository.Get(product.CategoryId);
-
-            return new GetProductDto()
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                Category = new GetCategoryDto
-                {
-                    Id = category.Id,
-                    Name = category.Name,
-                },
-                Quantity = product.Quantity,
-                Price = product.Price,
-            };
+            return await MapToEntityDto(product);
         }
 
         public async Task<List<GetProductDto>> GetAll()
@@ -54,24 +40,13 @@ namespace InventoryManagementSystem.Services
             var products = await _productRepository.GetAll();
             var categoryList = await _categoryRepository.GetAll();
 
-            var productDtos = products.Select(product =>
-            {
-                var category = categoryList.FirstOrDefault(e => e.Id == product.CategoryId);
+            var productDtos = new List<GetProductDto>();
 
-                return new GetProductDto
-                {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Description = product.Description,
-                    Category = new GetCategoryDto
-                    {
-                        Id = category.Id,
-                        Name = category.Name,
-                    },
-                    Quantity = product.Quantity,
-                    Price = product.Price,
-                };
-            }).ToList();
+            foreach (var product in products)
+            {
+                var result = await MapToEntityDto(product);
+                productDtos.Add(result);
+            }
 
             return productDtos;
         }
@@ -90,7 +65,26 @@ namespace InventoryManagementSystem.Services
             var result = await _productRepository.Create(product);
             await _unitOfWork.CommitAsync();
 
-            return await Get(result.Id);
+            return await MapToEntityDto(result);
+        }
+
+        private async Task<GetProductDto> MapToEntityDto(Product product)
+        {
+            var category = await _categoryRepository.Get(product.CategoryId);
+
+            return new GetProductDto()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Category = new GetCategoryDto
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                },
+                Quantity = product.Quantity,
+                Price = product.Price,
+            };
         }
     }
 }
