@@ -41,7 +41,7 @@ namespace InventoryManagementSystem.Controllers
             return Ok(products);
         }
 
-        [HttpPost]
+        [HttpPost("Create")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromBody] CreateProductDto createProductDto)
