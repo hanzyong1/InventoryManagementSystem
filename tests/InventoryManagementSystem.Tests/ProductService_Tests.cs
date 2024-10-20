@@ -116,5 +116,18 @@ namespace InventoryManagementSystem.Tests
             _productRepositoryMock.Verify(repo => repo.Create(It.IsAny<Product>()), Times.Once);
             _unitOfWorkMock.Verify(uow => uow.CommitAsync(), Times.Once);
         }
+
+        [Fact]
+        public async Task Correctly_Update_Product()
+        {
+            var mockUpdateProductDto = new UpdateProductDto()
+            {
+
+            };
+
+            var result = _productService.Update(mockUpdateProductDto);
+
+            Assert.NotNull(result);
+        }
     }
 } 
