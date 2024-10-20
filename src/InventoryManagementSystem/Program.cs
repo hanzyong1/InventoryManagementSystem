@@ -1,6 +1,7 @@
 using InventoryManagementSystem.Data;
 using InventoryManagementSystem.Data.Repositories;
 using InventoryManagementSystem.Data.Seed;
+using InventoryManagementSystem.Data.UnitOfWork;
 using InventoryManagementSystem.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
