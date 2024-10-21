@@ -29,7 +29,7 @@ namespace InventoryManagementSystem.Tests
         [Fact]
         public async Task Get_Product_With_Invalid_Id_Should_Return_Null()
         {
-            _productRepositoryMock.Setup(e => e.Get(It.IsAny<int>()).Result).Returns(() => null);
+            _productRepositoryMock.Setup(e => e.Get(It.IsAny<int>())).ReturnsAsync(() => null);
 
             var result = await _productService.Get(1);
 
@@ -50,8 +50,8 @@ namespace InventoryManagementSystem.Tests
                 Id = 2,
             };
 
-            _productRepositoryMock.Setup(e => e.Get(It.IsAny<int>()).Result).Returns(mockProduct);
-            _categoryRepositoryMock.Setup(e => e.Get(mockProduct.CategoryId).Result).Returns(mockCategory);
+            _productRepositoryMock.Setup(e => e.Get(It.IsAny<int>())).ReturnsAsync(mockProduct);
+            _categoryRepositoryMock.Setup(e => e.Get(mockProduct.CategoryId)).ReturnsAsync(mockCategory);
 
             var result = await _productService.Get(1);
 
@@ -75,8 +75,9 @@ namespace InventoryManagementSystem.Tests
                 new Category() { Id = 2, Name = "Category2", },
             };
 
-            _productRepositoryMock.Setup(e => e.GetAll().Result).Returns(mockProducts);
-            _categoryRepositoryMock.Setup(e => e.GetAll().Result).Returns(mockCategories);
+            _productRepositoryMock.Setup(e => e.GetAll()).ReturnsAsync(mockProducts);
+            _categoryRepositoryMock.Setup(e => e.GetAll()).ReturnsAsync(mockCategories);
+            _categoryRepositoryMock.Setup(e => e.Get(It.IsAny<int>())).ReturnsAsync((int id) => mockCategories.Find(c => c.Id == id));
 
             var result = await _productService.GetAll();
 
@@ -114,7 +115,7 @@ namespace InventoryManagementSystem.Tests
 
             _productRepositoryMock.Setup(e => e.Create(It.IsAny<Product>())).ReturnsAsync(mockProduct);
             _unitOfWorkMock.Setup(e => e.CommitAsync()).Returns(Task.CompletedTask);
-            _categoryRepositoryMock.Setup(e => e.Get(mockProduct.CategoryId).Result).Returns(mockCategory);
+            _categoryRepositoryMock.Setup(e => e.Get(mockProduct.CategoryId)).ReturnsAsync(mockCategory);
 
             var result = await _productService.Create(mockCreateProductDto);
 
@@ -124,17 +125,17 @@ namespace InventoryManagementSystem.Tests
             _unitOfWorkMock.Verify(uow => uow.CommitAsync(), Times.Once);
         }
 
-        //[Fact]
-        //public async Task Correctly_Update_Product()
-        //{
-        //    var mockUpdateProductDto = new UpdateProductDto()
-        //    {
+        [Fact]
+        public async Task Correctly_Update_Product()
+        {
+            var mockUpdateProductDto = new UpdateProductDto()
+            {
 
-        //    };
+            };
 
-        //    var result = _productService.Update(mockUpdateProductDto);
+            var result = _productService.Update(mockUpdateProductDto);
 
-        //    Assert.NotNull(result);
-        //}
+            Assert.NotNull(result);
+        }
     }
 } 
