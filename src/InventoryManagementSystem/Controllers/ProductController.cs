@@ -55,5 +55,25 @@ namespace InventoryManagementSystem.Controllers
 
             return Ok(product);
         }
+
+        [HttpPut("Update/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateProductDto updateProductDto)
+        {
+            if (id != updateProductDto.Id)
+            {
+                return BadRequest();
+            }
+
+            var product = await _productService.Update(updateProductDto);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(product);
+        }
     }
 }
