@@ -141,5 +141,45 @@ namespace InventoryManagementSystem.Tests
 
             Assert.Null(result);
         }
+
+        [Fact]
+        public async Task Update_Product_Correctly_Valid_Id()
+        {
+            var mockUpdateProductDto = new UpdateProductDto()
+            {
+                Id = 1,
+                Name = "new",
+                Description = "new",
+                CategoryId = 2,
+                Price = 2.2,
+                Quantity = 2,
+            };
+
+            var mockProduct = new Product()
+            {
+                Id = 1,
+                Name = "old",
+                Description = "old",
+                CategoryId = 1,
+                Price = 1.1,
+                Quantity = 1,
+            };
+
+            var mockCategory = new Category()
+            {
+                Id = 2,
+                Name = "test",
+            };
+
+            _productRepositoryMock.Setup(e => e.Get(It.IsAny<int>())).ReturnsAsync(mockProduct);
+            _unitOfWorkMock.Setup(e => e.CommitAsync()).Returns(Task.CompletedTask);
+            _categoryRepositoryMock.Setup(e => e.Get(mockUpdateProductDto.CategoryId)).ReturnsAsync(mockCategory);
+
+            var result = await _productService.Update(mockUpdateProductDto);
+
+            Assert.NotNull(result);
+            Assert.Equal("test", result.Category.Name);
+            Assert.Equal(2.2, result.Price);
+        }
     }
 } 
