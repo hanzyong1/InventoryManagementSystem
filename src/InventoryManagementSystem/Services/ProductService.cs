@@ -68,9 +68,14 @@ namespace InventoryManagementSystem.Services
             return await MapToEntityDto(result);
         }
 
-        public async Task<GetProductDto> Update(UpdateProductDto updateProductDto)
+        public async Task<GetProductDto?> Update(UpdateProductDto updateProductDto)
         {
             var product = await _productRepository.Get(updateProductDto.Id);
+
+            if (product == null)
+            {
+                return null;
+            }
 
             product.Name = updateProductDto.Name;
             product.Description = !string.IsNullOrEmpty(updateProductDto.Description) ? updateProductDto.Description : null;
