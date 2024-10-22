@@ -126,16 +126,20 @@ namespace InventoryManagementSystem.Tests
         }
 
         [Fact]
-        public async Task Correctly_Update_Product()
+        public async Task Update_Product_Return_Null_If_Invalid_Id()
         {
             var mockUpdateProductDto = new UpdateProductDto()
             {
-
+                Id = -1,
+                Name = "Test",
+                CategoryId = 1,
             };
 
-            var result = _productService.Update(mockUpdateProductDto);
+            _productRepositoryMock.Setup(e => e.Get(It.IsAny<int>())).ReturnsAsync(() => null);
 
-            Assert.NotNull(result);
+            var result = await _productService.Update(mockUpdateProductDto);
+
+            Assert.Null(result);
         }
     }
 } 
