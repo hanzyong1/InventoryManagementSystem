@@ -4,6 +4,7 @@ namespace InventoryManagementSystem.Services
 {
     public interface ICategoryService
     {
-        Task<GetCategoryDto> Get(int id);
+        Task<GetCategoryDto?> Get(int id);
+        Task<List<GetCategoryDto>> GetAll();
     }
 }

@@ -19,7 +19,7 @@ namespace InventoryManagementSystem.Services
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<GetCategoryDto> Get(int id)
+        public async Task<GetCategoryDto?> Get(int id)
         {
             var category = await _categoryRepository.Get(id);
 
@@ -29,6 +29,21 @@ namespace InventoryManagementSystem.Services
             }
 
             return MapToEntityDto(category);
+        }
+
+        public async Task<List<GetCategoryDto>> GetAll()
+        {
+            var categoryList = await _categoryRepository.GetAll();
+
+            var categoryDtos = new List<GetCategoryDto>();
+
+            foreach (var category in categoryList)
+            {
+                var categoryDto = MapToEntityDto(category);
+                categoryDtos.Add(categoryDto);
+            }
+
+            return categoryDtos;
         }
 
         private GetCategoryDto MapToEntityDto(Category category)
