@@ -55,5 +55,34 @@ namespace InventoryManagementSystem.Tests
             Assert.NotNull(result);
             Assert.Equal(mockCategory.Id, result.Id);
         }
+
+        [Fact]
+        public async Task GetAll_Category_Returns_List()
+        {
+            var mockCategoryList = new List<Category>()
+            {
+                new Category() { Id = 1, Name = "Test1" },
+                new Category() { Id = 2, Name = "Test2" },
+            };
+
+            var mockCategoryDtoList = new List<GetCategoryDto>()
+            {
+                new GetCategoryDto() { Id = 1, Name = "Test1" },
+                new GetCategoryDto() { Id = 2, Name = "Test2" },
+            };
+
+            _categoryRepositoryMock.Setup(e => e.GetAll()).ReturnsAsync(mockCategoryList);
+
+            var result = await _categoryService.GetAll();
+
+            Assert.NotNull(result);
+            Assert.Equal(2, result.Count);
+
+            var firstProduct = result.First();
+            Assert.Equal("Test1", firstProduct.Name);
+
+            var secondProduct = result.Last();
+            Assert.Equal(2, secondProduct.Id);
+        }
     }
 }
