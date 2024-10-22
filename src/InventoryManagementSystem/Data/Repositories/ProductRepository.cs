@@ -27,5 +27,10 @@ namespace InventoryManagementSystem.Data.Repositories
             await _context.Products.AddAsync(product);
             return product;
         }
+        
+        public void Delete(Product product)
+        {
+            _context.Products.Remove(product);
+        }
     }
 }
