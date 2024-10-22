@@ -181,5 +181,15 @@ namespace InventoryManagementSystem.Tests
             Assert.Equal("test", result.Category.Name);
             Assert.Equal(2.2, result.Price);
         }
+
+        [Fact]
+        public async Task Invalid_Id_Cannot_Delete()
+        {
+            _productRepositoryMock.Setup(e => e.Get(It.IsAny<int>())).ReturnsAsync(() => null);
+
+            _productService.Delete(1);
+
+            _productRepositoryMock.Verify(e => e.Delete(It.IsAny<Product>()), Times.Never);
+        }
     }
 } 
