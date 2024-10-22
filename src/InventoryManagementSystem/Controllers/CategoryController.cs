@@ -29,5 +29,13 @@ namespace InventoryManagementSystem.Controllers
 
             return Ok(category);
         }
+
+        [HttpGet("GetAll")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAll()
+        {
+            var categories = await _categoryService.GetAll();
+            return Ok(categories);
+        }
     }
 }
