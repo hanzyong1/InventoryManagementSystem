@@ -84,5 +84,30 @@ namespace InventoryManagementSystem.Tests
             var secondProduct = result.Last();
             Assert.Equal(2, secondProduct.Id);
         }
+
+        [Fact]
+        public async Task Create_Category_Returns_Category()
+        {
+            var mockCategory = new Category()
+            {
+                Id = 1,
+                Name = "Test",
+            };
+
+            var mockCategoryDto = new CreateCategoryDto()
+            {
+                Name = "Test",
+            };
+
+            _categoryRepositoryMock.Setup(e => e.Create(It.IsAny<Category>())).ReturnsAsync(mockCategory);
+            _unitOfWorkMock.Setup(e => e.CommitAsync()).Returns(Task.CompletedTask);
+
+            var result = await _categoryService.Create(mockCategoryDto);
+
+            Assert.NotNull(result);
+            Assert.Equal(mockCategory.Id, result.Id);
+            _categoryRepositoryMock.Verify(repo => repo.Create(It.IsAny<Category>()), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.CommitAsync(), Times.Once);
+        }
     }
 }
