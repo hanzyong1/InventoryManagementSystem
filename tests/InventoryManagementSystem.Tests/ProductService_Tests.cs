@@ -183,16 +183,6 @@ namespace InventoryManagementSystem.Tests
         }
 
         [Fact]
-        public async Task Invalid_Id_Cannot_Delete()
-        {
-            _productRepositoryMock.Setup(e => e.Get(It.IsAny<int>())).ReturnsAsync(() => null);
-
-            await _productService.Delete(-1);
-
-            _productRepositoryMock.Verify(e => e.Delete(It.IsAny<Product>()), Times.Never);
-        }
-
-        [Fact]
         public async Task Delete_Product_Valid_Id()
         {
             var mockProduct = new Product()

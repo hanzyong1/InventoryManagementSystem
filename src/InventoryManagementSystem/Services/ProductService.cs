@@ -91,11 +91,6 @@ namespace InventoryManagementSystem.Services
         {
             var product = await _productRepository.Get(id);
 
-            if (product == null)
-            {
-                return;
-            }
-
             _productRepository.Delete(product);
             await _unitOfWork.CommitAsync();
         }
