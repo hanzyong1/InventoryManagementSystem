@@ -46,6 +46,19 @@ namespace InventoryManagementSystem.Services
             return categoryDtos;
         }
 
+        public async Task<GetCategoryDto> Create(CreateCategoryDto createCategoryDto)
+        {
+            var category = new Category()
+            {
+                Name = createCategoryDto.Name,
+            };
+
+            var result = await _categoryRepository.Create(category);
+            await _unitOfWork.CommitAsync();
+
+            return MapToEntityDto(result);
+        }
+
         private GetCategoryDto MapToEntityDto(Category category)
         {
             return new GetCategoryDto()
