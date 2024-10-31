@@ -1,6 +1,7 @@
 ﻿using InventoryManagementSystem.Data.Repositories;
 using InventoryManagementSystem.Data.UnitOfWork;
 using InventoryManagementSystem.Dtos.CategoryDto;
+using InventoryManagementSystem.Dtos.ProductDto;
 using InventoryManagementSystem.Models;
 using InventoryManagementSystem.Services;
 using Moq;
@@ -108,6 +109,46 @@ namespace InventoryManagementSystem.Tests
             Assert.Equal(mockCategory.Id, result.Id);
             _categoryRepositoryMock.Verify(repo => repo.Create(It.IsAny<Category>()), Times.Once);
             _unitOfWorkMock.Verify(uow => uow.CommitAsync(), Times.Once);
+        }
+
+        [Fact]
+        public async Task Update_Category_Return_Null_If_Invalid_Id()
+        {
+            var mockUpdateCategoryDto = new UpdateCategoryDto()
+            {
+                Id = -1,
+                Name = "Test",
+            };
+
+            _categoryRepositoryMock.Setup(e => e.Get(It.IsAny<int>())).ReturnsAsync(() => null);
+
+            var result = await _categoryService.Update(mockUpdateCategoryDto);
+
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public async Task Update_Category_Correctly_Valid_Id()
+        {
+            var mockUpdateCategoryDto = new UpdateCategoryDto()
+            {
+                Id = 1,
+                Name = "new",
+            };
+
+            var mockCategory = new Category()
+            {
+                Id = 1,
+                Name = "old",
+            };
+
+            _categoryRepositoryMock.Setup(e => e.Get(It.IsAny<int>())).ReturnsAsync(mockCategory);
+            _unitOfWorkMock.Setup(e => e.CommitAsync()).Returns(Task.CompletedTask);
+
+            var result = await _categoryService.Update(mockUpdateCategoryDto);
+
+            Assert.NotNull(result);
+            Assert.Equal(mockUpdateCategoryDto.Name, mockCategory.Name);
         }
     }
 }
