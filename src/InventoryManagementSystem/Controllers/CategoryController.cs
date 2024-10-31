@@ -74,5 +74,22 @@ namespace InventoryManagementSystem.Controllers
 
             return Ok(product);
         }
+
+        [HttpDelete("Delete/{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var product = await _categoryService.Get(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            await _categoryService.Delete(id);
+
+            return NoContent();
+        }
     }
 }
