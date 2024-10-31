@@ -59,6 +59,21 @@ namespace InventoryManagementSystem.Services
             return MapToEntityDto(result);
         }
 
+        public async Task<GetCategoryDto?> Update(UpdateCategoryDto updateCategoryDto)
+        {
+            var category = await _categoryRepository.Get(updateCategoryDto.Id);
+
+            if (category == null)
+            {
+                return null;
+            }
+
+            category.Name = updateCategoryDto.Name;
+            await _unitOfWork.CommitAsync();
+
+            return MapToEntityDto(category);
+        }
+
         private GetCategoryDto MapToEntityDto(Category category)
         {
             return new GetCategoryDto()

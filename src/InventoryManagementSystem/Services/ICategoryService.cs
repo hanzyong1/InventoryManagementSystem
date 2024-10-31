@@ -6,6 +6,7 @@ namespace InventoryManagementSystem.Services
     {
         Task<GetCategoryDto?> Get(int id);
         Task<List<GetCategoryDto>> GetAll();
-        Task<GetCategoryDto> Create(CreateCategoryDto create);
+        Task<GetCategoryDto> Create(CreateCategoryDto createCategoryDto);
+        Task<GetCategoryDto?> Update(UpdateCategoryDto updateCategoryDto);
     }
 }
