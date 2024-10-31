@@ -150,5 +150,22 @@ namespace InventoryManagementSystem.Tests
             Assert.NotNull(result);
             Assert.Equal(mockUpdateCategoryDto.Name, mockCategory.Name);
         }
+
+        [Fact]
+        public async Task Delete_Category_Valid_Id()
+        {
+            var mockCategory = new Category()
+            {
+                Id = 1,
+                Name = "test",
+            };
+
+            _categoryRepositoryMock.Setup(e => e.Get(It.IsAny<int>())).ReturnsAsync(mockCategory);
+
+            await _categoryService.Delete(mockCategory.Id);
+
+            _categoryRepositoryMock.Verify(e => e.Delete(It.IsAny<Category>()), Times.Once);
+            _unitOfWorkMock.Verify(u => u.CommitAsync(), Times.Once());
+        }
     }
 }
