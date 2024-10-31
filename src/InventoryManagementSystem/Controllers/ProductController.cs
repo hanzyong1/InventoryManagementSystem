@@ -59,6 +59,7 @@ namespace InventoryManagementSystem.Controllers
         [HttpPut("Update/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateProductDto updateProductDto)
         {
             if (id != updateProductDto.Id)
