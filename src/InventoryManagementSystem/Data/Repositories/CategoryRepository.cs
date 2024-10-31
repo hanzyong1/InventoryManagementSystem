@@ -27,5 +27,10 @@ namespace InventoryManagementSystem.Data.Repositories
             await _context.Categories.AddAsync(category);
             return category;
         }
+
+        public async Task Delete(Category category)
+        {
+            _context.Categories.Remove(category);
+        }
     }
 }
