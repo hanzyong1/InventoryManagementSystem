@@ -37,5 +37,20 @@ namespace InventoryManagementSystem.Controllers
             var categories = await _categoryService.GetAll();
             return Ok(categories);
         }
+
+        [HttpPost("Create")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Create([FromBody] CreateCategoryDto createCategoryDto)
+        {
+            if (createCategoryDto == null)
+            {
+                return BadRequest();
+            }
+
+            var product = await _categoryService.Create(createCategoryDto);
+
+            return Ok(product);
+        }
     }
 }
