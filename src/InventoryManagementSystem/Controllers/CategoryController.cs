@@ -1,4 +1,5 @@
 ﻿using InventoryManagementSystem.Dtos.CategoryDto;
+using InventoryManagementSystem.Dtos.ProductDto;
 using InventoryManagementSystem.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -49,6 +50,27 @@ namespace InventoryManagementSystem.Controllers
             }
 
             var product = await _categoryService.Create(createCategoryDto);
+
+            return Ok(product);
+        }
+
+        [HttpPut("Update/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateCategoryDto updateCategoryDto)
+        {
+            if (id != updateCategoryDto.Id)
+            {
+                return BadRequest();
+            }
+
+            var product = await _categoryService.Update(updateCategoryDto);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
 
             return Ok(product);
         }
