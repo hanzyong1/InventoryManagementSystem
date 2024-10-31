@@ -74,6 +74,14 @@ namespace InventoryManagementSystem.Services
             return MapToEntityDto(category);
         }
 
+        public async Task Delete(int id)
+        {
+            var category = await _categoryRepository.Get(id);
+
+            await _categoryRepository.Delete(category);
+            await _unitOfWork.CommitAsync();
+        }
+
         private GetCategoryDto MapToEntityDto(Category category)
         {
             return new GetCategoryDto()

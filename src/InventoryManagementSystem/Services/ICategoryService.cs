@@ -8,5 +8,6 @@ namespace InventoryManagementSystem.Services
         Task<List<GetCategoryDto>> GetAll();
         Task<GetCategoryDto> Create(CreateCategoryDto createCategoryDto);
         Task<GetCategoryDto?> Update(UpdateCategoryDto updateCategoryDto);
+        Task Delete(int id);
     }
 }
