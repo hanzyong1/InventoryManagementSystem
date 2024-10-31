@@ -6,5 +6,6 @@ namespace InventoryManagementSystem.Data.Repositories
     {
         Task<Category?> Get(int id);
         Task<List<Category>> GetAll();
+        Task<Category> Create(Category category);
     }
 }
