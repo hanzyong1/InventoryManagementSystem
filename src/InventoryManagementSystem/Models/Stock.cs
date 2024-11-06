@@ -4,6 +4,16 @@ namespace InventoryManagementSystem.Models
 {
     public class Stock
     {
+        public Stock()
+        {
+            
+        }
+        public Stock(int warehouseId, int productId, int quantity = 0)
+        {
+            WarehouseId = warehouseId;
+            ProductId = productId;
+        }
+
         public int Id { get; set; }
 
         [ForeignKey("WarehouseId")]

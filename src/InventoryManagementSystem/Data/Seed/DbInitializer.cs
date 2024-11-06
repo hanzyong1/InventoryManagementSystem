@@ -10,6 +10,7 @@ namespace InventoryManagementSystem.Data.Seed
             await new CategorySeeder(context).Create();
             await new ProductSeeder(context).Create();
             await new WarehouseSeeder(context).Create();
+            await new StockSeeder(context).Create();
         }
     }
 }
