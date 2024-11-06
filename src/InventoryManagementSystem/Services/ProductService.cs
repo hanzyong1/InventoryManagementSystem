@@ -58,7 +58,6 @@ namespace InventoryManagementSystem.Services
                 Name = productDto.Name,
                 Description = !string.IsNullOrEmpty(productDto.Description) ? productDto.Description : null,
                 CategoryId = productDto.CategoryId,
-                Quantity = productDto.Quantity ?? 0,
                 Price = productDto.Price ?? 0.0,
             };
 
@@ -81,7 +80,6 @@ namespace InventoryManagementSystem.Services
             product.Description = !string.IsNullOrEmpty(updateProductDto.Description) ? updateProductDto.Description : null;
             product.CategoryId = updateProductDto.CategoryId;
             product.Price = updateProductDto?.Price ?? 0.0;
-            product.Quantity = updateProductDto?.Quantity ?? 0;
 
             await _unitOfWork.CommitAsync();
             return await MapToEntityDto(product);
@@ -109,7 +107,6 @@ namespace InventoryManagementSystem.Services
                     Id = category.Id,
                     Name = category.Name,
                 },
-                Quantity = product.Quantity,
                 Price = product.Price,
             };
         }

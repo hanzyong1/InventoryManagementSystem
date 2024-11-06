@@ -8,7 +8,6 @@ namespace InventoryManagementSystem.Dtos.ProductDto
         public string Name { get; set; }
         public string? Description { get; set; }
         public GetCategoryDto Category { get; set; }
-        public int Quantity { get; set; }
         public double Price { get; set; }
     }
 }

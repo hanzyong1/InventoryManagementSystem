@@ -152,7 +152,6 @@ namespace InventoryManagementSystem.Tests
                 Description = "new",
                 CategoryId = 2,
                 Price = 2.2,
-                Quantity = 2,
             };
 
             var mockProduct = new Product()
@@ -162,7 +161,6 @@ namespace InventoryManagementSystem.Tests
                 Description = "old",
                 CategoryId = 1,
                 Price = 1.1,
-                Quantity = 1,
             };
 
             var mockCategory = new Category()
