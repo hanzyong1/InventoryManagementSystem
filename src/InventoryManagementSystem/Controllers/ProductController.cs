@@ -1,8 +1,6 @@
-﻿using InventoryManagementSystem.Data;
-using InventoryManagementSystem.Dtos.ProductDto;
+﻿using InventoryManagementSystem.Dtos.ProductDto;
 using InventoryManagementSystem.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace InventoryManagementSystem.Controllers
 {
