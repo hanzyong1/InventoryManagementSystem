@@ -35,5 +35,22 @@ namespace InventoryManagementSystem.Controllers
 
             return Ok(stocks);
         }
+
+        [HttpGet("GetStockAmountOfProduct/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetStockAmountOfProduct(int id)
+        {
+            var product = await _productService.Get(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            var stock = await _stockService.GetStockAmountByProductId(id);
+
+            return Ok(stock);
+        }
     }
 }
