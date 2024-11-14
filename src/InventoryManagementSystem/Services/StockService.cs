@@ -41,14 +41,21 @@ namespace InventoryManagementSystem.Services
             }).ToList();
 
             return warehouseDtoList;
+        }
 
-            //var warehouseDtoList = new List<GetWarehouseDto>();
-            //foreach (var stock in stocksOfProduct)
-            //{
-            //    var warehouse = warehouseList.FirstOrDefault(e => e.Id == stock.WarehouseId);
+        public async Task<GetStockAmountDto> GetStockAmountByProductId(int productId)
+        {
+            var product = await _productService.Get(productId);
 
-            //    warehouseDtoList.Add(warehouse);
-            //}
+            var stocksOfProduct = await _stockRepository.GetAllByProductId(productId);
+
+            var totalAmount = stocksOfProduct.Select(e => e.Quantity).Sum();
+
+            return new GetStockAmountDto()
+            {
+                Product = product,
+                Quantity = totalAmount,
+            };
         }
     }
 }
