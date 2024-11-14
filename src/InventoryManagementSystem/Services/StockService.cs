@@ -1,4 +1,5 @@
 ﻿using InventoryManagementSystem.Data.Repositories;
+using InventoryManagementSystem.Data.UnitOfWork;
 using InventoryManagementSystem.Dtos.StockDto;
 using InventoryManagementSystem.Dtos.WarehouseDto;
 
@@ -6,11 +7,13 @@ namespace InventoryManagementSystem.Services
 {
     public class StockService : IStockService
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IStockRepository _stockRepository;
         private readonly IWarehouseRepository _warehouseRepository;
         private readonly IProductService _productService;
 
         public StockService(
+            IUnitOfWork unitOfWork,
             IStockRepository stockRepository,
             IWarehouseRepository warehouseRepository,
             IProductService productService
